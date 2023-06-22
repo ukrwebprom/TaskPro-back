@@ -7,5 +7,11 @@ const router = express.Router();
 router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 router.get("/me", authenticate, ctrl.me);
+router.patch(
+  "/theme",
+  authenticate,
+  validateBody(schemas.themeSchema),
+  ctrl.updateTheme
+);
 
 module.exports = router;
