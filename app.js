@@ -1,14 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-
-require("dotenv").config();
-
-//tut budut routers
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+const usersRouter = require("./routes/api/users");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use("/users", usersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

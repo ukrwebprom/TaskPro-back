@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Task Pro",
+    "version": "1.0.0",
+    "servers": {
+      "url": "https://taskpro-41yf.onrender.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Endpoints related to users"
+    },
+    {
+      "name": "Boards",
+      "description": "Endpoints related to boards"
+    },
+    {
+      "name": "Columns",
+      "description": "Endpoints related to columns"
+    },
+    {
+      "name": "Tasks",
+      "description": "Endpoints related to tasks"
+    },
+    {
+      "name": "Suppor",
+      "description": "Endpoint for sending emails to support"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "summary": "Register new user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "User's name",
+                    "example": "Duka"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "example": "duka@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "example": "pwd1234567"
+                  }
+                },
+                "required": ["email", "password", "name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull registration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "example": "Successful registration"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use"
+          },
+          "400": {
+            "description": "Missing fields in request body"
+          }
+        }
+      }
+    }
+  }
+}
