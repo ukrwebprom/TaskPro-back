@@ -43,7 +43,7 @@ const login = async (req, res) => {
 
 const me = async (req, res) => {
   const { name, email, avatar, theme } = req.user;
-  res.status(201).json({
+  res.status(200).json({
     name,
     email,
     avatar,

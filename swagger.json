@@ -25,7 +25,7 @@
       "description": "Endpoints related to tasks"
     },
     {
-      "name": "Suppor",
+      "name": "Support",
       "description": "Endpoint for sending emails to support"
     }
   ],
@@ -48,11 +48,14 @@
                   },
                   "email": {
                     "type": "string",
+                    "format": "email",
                     "description": "User's email",
                     "example": "duka@mail.com"
                   },
                   "password": {
                     "type": "string",
+                    "minLength": 8,
+                    "maxLength": 32,
                     "description": "User's password",
                     "example": "pwd1234567"
                   }
@@ -64,7 +67,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfull registration",
+            "description": "Successful registration",
             "content": {
               "application/json": {
                 "schema": {
@@ -83,6 +86,189 @@
           },
           "400": {
             "description": "Missing fields in request body"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "User's email",
+                    "example": "duka@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 32,
+                    "description": "User's password",
+                    "example": "pwd1234567"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "User's token",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "User's name",
+                      "example": "Duka"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Wrong email or password"
+          },
+          "400": {
+            "description": "Missing fields in request body"
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "Check user",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "User's name",
+                      "example": "Duka"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "User's email",
+                      "example": "duka@mail.com"
+                    },
+                    "avatar": {
+                      "type": "string",
+                      "description": "User's avatar"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "enum": ["light", "dark", "violet"],
+                      "description": "User's theme",
+                      "example": "dark"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Problem with Bearer Token, missing header, invalid token"
+          }
+        }
+      }
+    },
+    "/users/theme": {
+      "patch": {
+        "summary": "Update user's theme",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "theme": {
+                    "type": "string",
+                    "description": "User's theme",
+                    "enum": ["dark", "light", "violet"],
+                    "example": "violet"
+                  }
+                },
+                "required": "theme"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Success",
+                      "example": "Successful update"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Problem with Bearer Token, missing header, invalid token"
+          },
+          "400": {
+            "description": "Missing fields in request body"
+          },
+          "404": {
+            "description": "User is not found"
           }
         }
       }
