@@ -52,7 +52,7 @@ const me = async (req, res) => {
 };
 
 const updateTheme = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
   const result = await User.findByIdAndUpdate(id, req.body, {
     new: true,
   });
