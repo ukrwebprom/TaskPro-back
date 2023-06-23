@@ -49,10 +49,17 @@ const themeSchema = Joi.object({
   theme: Joi.string().valid("dark", "light", "violet").required(),
 });
 
+const updateUserSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).max(64).required(),
+  name: Joi.string().required(),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
   themeSchema,
+  updateUserSchema,
 };
 
 userSchema.post("save", HandleMongooseError);
