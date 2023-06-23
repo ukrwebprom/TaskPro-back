@@ -272,6 +272,102 @@
           }
         }
       }
+    },
+    "/users/update": {
+      "put": {
+        "summary": "Update user",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "User's avatar file"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User's name",
+                    "example": "Duka"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "User's email",
+                    "example": "duka@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 32,
+                    "description": "User's password",
+                    "example": "pwd1234567"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatar": {
+                      "type": ["string", "null"],
+                      "nullable": true,
+                      "description": "URL or null",
+                      "example": "https://res.cloudinary.com/pro-task-cloud/image/upload/v1687533126/avatars/y8y1fx9pg7qmjyik3vgo.png"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "User's name",
+                      "example": "Duka"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User's email",
+                      "example": "duka@mail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Problem with Bearer Token, missing header, invalid token"
+          },
+          "400": {
+            "description": "Missing fields in request body"
+          },
+          "404": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Email in use"
+          }
+        }
+      }
     }
   }
 }
