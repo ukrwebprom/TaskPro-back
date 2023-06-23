@@ -68,9 +68,13 @@ const updateUser = async (req, res) => {
   let url = null;
   if (req.file) {
     const locaFilePath = req.file.path;
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    const result = await cloudinary.uploader.upload(locaFilePath, {
       folder: "avatars",
       resource_type: "image",
+      quality: "auto",
+      fetch_format: "auto",
+      format: "webp",
+      transformation: [{ width: 68, crop: "fill" }],
     });
     url = result.secure_url;
   }
