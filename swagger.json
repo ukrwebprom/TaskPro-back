@@ -30,7 +30,7 @@
     }
   ],
   "paths": {
-    "/users/register": {
+    "/user/register": {
       "post": {
         "summary": "Register new user",
         "tags": ["Users"],
@@ -90,7 +90,7 @@
         }
       }
     },
-    "/users/login": {
+    "/user/login": {
       "post": {
         "summary": "Login user",
         "tags": ["Users"],
@@ -158,7 +158,7 @@
         }
       }
     },
-    "/users/me": {
+    "/user/me": {
       "get": {
         "summary": "Check user",
         "tags": ["Users"],
@@ -214,7 +214,7 @@
         }
       }
     },
-    "/users/theme": {
+    "/user/theme": {
       "patch": {
         "summary": "Update user's theme",
         "tags": ["Users"],
@@ -279,7 +279,7 @@
         }
       }
     },
-    "/users/update": {
+    "/user/update": {
       "put": {
         "summary": "Update user",
         "tags": ["Users"],
@@ -375,7 +375,7 @@
         }
       }
     },
-    "/users/logout": {
+    "/user/logout": {
       "post": {
         "summary": "User's logout",
         "tags": ["Users"],
