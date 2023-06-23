@@ -137,6 +137,12 @@
                       "type": "string",
                       "description": "User's name",
                       "example": "Duka"
+                    },
+                    "theme": {
+                      "type": "string",
+                      "enum": ["light", "dark", "violet"],
+                      "description": "User's theme",
+                      "example": "dark"
                     }
                   }
                 }
@@ -365,6 +371,31 @@
           },
           "409": {
             "description": "Email in use"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "User's logout",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "Authorization Token",
+            "in": "header",
+            "description": "Bearer authorization token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful logout"
+          },
+          "401": {
+            "description": "Problem with authorization"
           }
         }
       }

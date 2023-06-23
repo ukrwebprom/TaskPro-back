@@ -39,6 +39,7 @@ const login = async (req, res) => {
   res.status(200).json({
     token,
     name: user.name,
+    theme: user.theme,
   });
 };
 
@@ -101,10 +102,17 @@ const updateUser = async (req, res) => {
   });
 };
 
+const logout = async (req, res) => {
+  const { id } = req.user;
+  await User.findByIdAndUpdate(id, { token: null });
+  res.status(204).json();
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   me: ctrlWrapper(me),
   updateTheme: ctrlWrapper(updateTheme),
   updateUser: ctrlWrapper(updateUser),
+  logout: ctrlWrapper(logout),
 };

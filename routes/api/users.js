@@ -20,5 +20,6 @@ router.put(
   validateBody(schemas.updateUserSchema),
   ctrl.updateUser
 );
+router.post("/logout", authenticate, ctrl.logout);
 
 module.exports = router;
