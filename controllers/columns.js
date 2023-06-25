@@ -22,21 +22,15 @@ const updateColumn = async (req, res) => {
 };
 
 const deleteColumn = async (req, res) => {
-  const { columnId } = req.params;
-  const result = await Column.findByIdAndUpdate(
-    columnId,
-    { title: req.body.title },
-    {
-      new: true,
-    }
-  );
+  const result = await Column.findByIdAndDelete(req.params.columnId);
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  res.status(200).json();
+  res.status(200).json({ message: "Column deleted " });
 };
 
 module.exports = {
   addColumn: ctrlWrapper(addColumn),
   updateColumn: ctrlWrapper(updateColumn),
+  deleteColumn: ctrlWrapper(deleteColumn),
 };

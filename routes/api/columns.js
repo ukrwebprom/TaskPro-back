@@ -11,5 +11,7 @@ router.patch(
   validateBody(schemas.updateSchema),
   ctrl.updateColumn
 );
+router.post("/", authenticate, validateBody(schemas.addSchema), ctrl.addColumn);
+router.delete("/:columnId", authenticate, ctrl.deleteColumn);
 
 module.exports = router;

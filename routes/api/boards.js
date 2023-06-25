@@ -13,5 +13,12 @@ router.put(
   validateBody(schemas.updateSchema),
   ctrl.updateBoard
 );
+router.patch(
+  "/:boardId",
+  authenticate,
+  validateBody(schemas.updateBcgSchema),
+  ctrl.updateBoardBcg
+);
+router.delete("/:boardId", authenticate, ctrl.deleteBoard);
 
 module.exports = router;
