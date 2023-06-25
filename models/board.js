@@ -1,12 +1,13 @@
 const { Schema, model } = require("mongoose");
 const { HandleMongooseError } = require("../helpers");
 const Joi = require("joi");
+const { Column } = require("../models/column");
 
 const boardSchema = new Schema(
   {
     title: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "Title is required"],
     },
     icon: {
       type: String,
@@ -16,7 +17,7 @@ const boardSchema = new Schema(
       type: String,
       default: null,
     },
-    owner: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "user",
     },

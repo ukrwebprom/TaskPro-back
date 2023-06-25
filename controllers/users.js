@@ -40,6 +40,7 @@ const login = async (req, res) => {
     token,
     name: user.name,
     theme: user.theme,
+    avatar: user.avatar,
   });
 };
 
@@ -73,8 +74,9 @@ const updateUser = async (req, res) => {
       resource_type: "image",
       quality: "auto",
       fetch_format: "auto",
+      public_id: req.file.originalname,
       format: "webp",
-      transformation: [{ width: 68, crop: "fill" }],
+      transformation: [{ width: 136, crop: "fill" }],
     });
     url = result.secure_url;
   }
