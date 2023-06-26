@@ -35,7 +35,7 @@ const login = async (req, res) => {
     id: user._id,
   };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
-  const resreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
     expiresIn: "14d",
   });
   await User.findByIdAndUpdate(user._id, { token, refreshToken });
@@ -49,10 +49,10 @@ const login = async (req, res) => {
 };
 
 const refresh = async (req, res) => {
-  const { refreshToken: token } = req.body;
+  const { refreshToken } = req.body;
   try {
-    const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
-    const isExist = await User.findOne({ refreshToken: token });
+    const { id } = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
+    const isExist = await User.findOne({ refreshToken });
     if (!isExist) {
       throw HttpError(403, "Token invalid");
     }
@@ -61,12 +61,14 @@ const refresh = async (req, res) => {
       id,
     };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
-    const resreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    const newResreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
       expiresIn: "14d",
     });
+    await User.findByIdAndUpdate(id, { token, refreshToken: newResreshToken });
+
     res.json({
       token,
-      resreshToken,
+      resreshToken: newResreshToken,
     });
   } catch (error) {
     throw HttpError(403, error.message);
