@@ -50,7 +50,7 @@ const loginSchema = Joi.object({
 });
 
 const refreshSchema = Joi.object({
-  resreshToken: Joi.string().required(),
+  refreshToken: Joi.string().required(),
 });
 
 const themeSchema = Joi.object({
