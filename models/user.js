@@ -25,6 +25,10 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    refreshToken: {
+      type: String,
+      default: null,
+    },
     theme: {
       type: String,
       enum: ["light", "dark", "violet"],
@@ -45,6 +49,10 @@ const loginSchema = Joi.object({
   password: Joi.string().min(8).max(64).required(),
 });
 
+const refreshSchema = Joi.object({
+  resreshToken: Joi.string().required(),
+});
+
 const themeSchema = Joi.object({
   theme: Joi.string().valid("dark", "light", "violet").required(),
 });
@@ -58,6 +66,7 @@ const updateUserSchema = Joi.object({
 const schemas = {
   registerSchema,
   loginSchema,
+  refreshSchema,
   themeSchema,
   updateUserSchema,
 };

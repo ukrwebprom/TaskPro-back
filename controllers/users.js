@@ -2,7 +2,7 @@ const { User } = require("../models/user");
 const { HttpError, ctrlWrapper } = require("../helpers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 const cloudinary = require("cloudinary").v2;
 
 const register = async (req, res) => {
@@ -34,14 +34,43 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
+  const resreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "14d",
+  });
+  await User.findByIdAndUpdate(user._id, { token, resreshToken });
   res.status(200).json({
     token,
+    resreshToken,
     name: user.name,
     theme: user.theme,
     avatar: user.avatar,
   });
+};
+
+const refresh = async (req, res) => {
+  const { refreshToken: token } = req.body;
+  try {
+    const { id } = jwt.verify(token, REFRESH_SECRET_KEY);
+    const isExist = await User.findOne({ refreshToken: token });
+    if (!isExist) {
+      throw HttpError(403, "Token invalid");
+    }
+
+    const payload = {
+      id,
+    };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
+    const resreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+      expiresIn: "14d",
+    });
+    res.json({
+      token,
+      resreshToken,
+    });
+  } catch (error) {
+    throw HttpError(403, error.message);
+  }
 };
 
 const me = async (req, res) => {
@@ -110,13 +139,14 @@ const updateUser = async (req, res) => {
 
 const logout = async (req, res) => {
   const { id } = req.user;
-  await User.findByIdAndUpdate(id, { token: null });
+  await User.findByIdAndUpdate(id, { token: null, resreshToken: null });
   res.status(204).json();
 };
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  refresh: ctrlWrapper(refresh),
   me: ctrlWrapper(me),
   updateTheme: ctrlWrapper(updateTheme),
   updateUser: ctrlWrapper(updateUser),

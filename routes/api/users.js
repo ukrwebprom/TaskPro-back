@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
+router.post("/refresh", validateBody(schemas.refreshSchema), ctrl.refresh);
+
 router.get("/me", authenticate, ctrl.me);
 router.patch(
   "/theme",
