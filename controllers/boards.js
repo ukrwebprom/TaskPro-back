@@ -14,9 +14,9 @@ const getBoard = async (req, res) => {
   if (!board) {
     return res.status(404).json({ error: "Board not found" });
   }
-  const columns = await Column.find({ board: boardId });
+  const columns = await Column.find({ board: boardId }).populate("tasks");
 
-  res.status(200).json({ columns });
+  res.status(200).json(columns);
 };
 
 const addBoard = async (req, res) => {

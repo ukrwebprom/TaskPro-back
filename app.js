@@ -6,6 +6,7 @@ const swaggerDocument = require("./swagger.json");
 const usersRouter = require("./routes/api/users");
 const boardRouter = require("./routes/api/boards");
 const columnRouter = require("./routes/api/columns");
+const taskRouter = require("./routes/api/tasks");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/user", usersRouter);
 app.use("/boards", boardRouter);
 app.use("/columns", columnRouter);
+app.use("/tasks", taskRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

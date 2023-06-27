@@ -539,158 +539,8 @@
       }
     },
     "/boards/{boardId}": {
-      "put": {
-        "summary": "Update board",
-        "tags": ["Boards"],
-        "parameters": [
-          {
-            "name": "Authorization Token",
-            "in": "header",
-            "description": "User authorization token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-            }
-          },
-          {
-            "name": "boardId",
-            "in": "path",
-            "description": "Board ID",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "649885bb8cfd32ed13fd42d3"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Board title",
-                    "example": "My project"
-                  },
-                  "icon": {
-                    "type": "string",
-                    "description": "Board icon name",
-                    "example": "star"
-                  },
-                  "background": {
-                    "type": ["string", "null"],
-                    "description": "Board background(url/null)",
-                    "example": null
-                  }
-                },
-                "required": ["title", "icon", "background"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful update",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "example": "Successful update"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Problem with Authorization missing header, invalid token"
-          },
-          "400": {
-            "description": "Validation error (missing fields in body)"
-          },
-          "404": {
-            "description": "Board id (from params) not found"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update board background",
-        "tags": ["Boards"],
-        "parameters": [
-          {
-            "name": "Authorization Token",
-            "in": "header",
-            "description": "User authorization token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-            }
-          },
-          {
-            "name": "boardId",
-            "in": "path",
-            "description": "Board ID",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "649885bb8cfd32ed13fd42d3"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "background": {
-                    "type": ["string", "null"],
-                    "description": "Board background(url/null)",
-                    "example": null
-                  }
-                },
-                "required": "background"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful update",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "example": "Background updated"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Problem with Authorization missing header, invalid token"
-          },
-          "400": {
-            "description": "Validation error (missing fields in body)"
-          },
-          "404": {
-            "description": "Board id (from params) not found"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete board",
+      "get": {
+        "summary": "Get all columns and tasks by boardId",
         "tags": ["Boards"],
         "parameters": [
           {
@@ -716,14 +566,107 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful delete",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
+                  "type": "array",
                   "properties": {
-                    "message": {
-                      "example": "Board deleted"
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "description": "Column Id",
+                        "example": "649885bb8cfd32ed13fd42d3"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                      },
+                      "board": {
+                        "type": "string",
+                        "description": "BoardId to which the columns refers"
+                      },
+                      "tasks": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "description": "Task Id",
+                              "example": "649885bb8cfd32ed13fd42d3"
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "Task title",
+                              "example": "To buy some food"
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Task description",
+                              "example": "Bread, meat and bla bla bla or dubi dubi dubi"
+                            },
+                            "priority": {
+                              "type": "string",
+                              "enum": ["low", "medium", "high", "none"],
+                              "description": "Task priority",
+                              "example": "high"
+                            },
+                            "deadline": {
+                              "type": "string",
+                              "description": "Task deadline",
+                              "example": "22.07.2023"
+                            },
+                            "column": {
+                              "type": "string",
+                              "description": "ColumnId to which the task refers"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "example1": {
+                      "value": [
+                        {
+                          "_id": "6499fd028f5b7f86f156a990",
+                          "title": "layout",
+                          "board": "6499fc7f8f5b7f86f156a98d",
+                          "tasks": []
+                        },
+                        {
+                          "_id": "6499fd0d8f5b7f86f156a993",
+                          "title": "back",
+                          "board": "6499fc7f8f5b7f86f156a98d",
+                          "tasks": []
+                        },
+                        {
+                          "_id": "6499fd1f8f5b7f86f156a996",
+                          "title": "styles",
+                          "board": "6499fc7f8f5b7f86f156a98d",
+                          "tasks": [
+                            {
+                              "_id": "649a1dbf0e5ab7a30f83ade0",
+                              "title": "backgrounds",
+                              "description": "blablablabla or dabi dabi dabi",
+                              "priority": "medium",
+                              "deadline": "26.06.2021",
+                              "column": "6499fd1f8f5b7f86f156a996"
+                            },
+                            {
+                              "_id": "649a1dfd0e5ab7a30f83ade7",
+                              "title": "font face",
+                              "description": "hmmmmmmmmmmmmmmmm",
+                              "priority": "high",
+                              "deadline": "22.07.2023",
+                              "column": "6499fd1f8f5b7f86f156a996"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   }
                 }
@@ -736,61 +679,230 @@
           "404": {
             "description": "Board id (from params) not found"
           }
-        }
-      }
-    },
-    "/columns": {
-      "post": {
-        "summary": "Add new column",
-        "tags": ["Columns"],
-        "parameters": [
-          {
-            "name": "Authorization Token",
-            "in": "header",
-            "description": "User authorization token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
+        },
+        "put": {
+          "summary": "Update board",
+          "tags": ["Boards"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Column title",
-                    "example": "To do"
-                  },
-                  "board": {
-                    "type": "string",
-                    "description": "BoardId to which the column refer",
-                    "example": "649885bb8cfd32ed13fd42d3"
-                  }
-                },
-                "required": ["title", "board"]
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            },
+            {
+              "name": "boardId",
+              "in": "path",
+              "description": "Board ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "649885bb8cfd32ed13fd42d3"
               }
             }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "New column created",
+          ],
+          "requestBody": {
+            "required": true,
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
+                    "title": {
                       "type": "string",
-                      "description": "Column ID (generated by backend)",
-                      "example": "5f86793b8a7c4d2e"
+                      "description": "Board title",
+                      "example": "My project"
                     },
+                    "icon": {
+                      "type": "string",
+                      "description": "Board icon name",
+                      "example": "star"
+                    },
+                    "background": {
+                      "type": ["string", "null"],
+                      "description": "Board background(url/null)",
+                      "example": null
+                    }
+                  },
+                  "required": ["title", "icon", "background"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful update",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "example": "Successful update"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "400": {
+              "description": "Validation error (missing fields in body)"
+            },
+            "404": {
+              "description": "Board id (from params) not found"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update board background",
+          "tags": ["Boards"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            },
+            {
+              "name": "boardId",
+              "in": "path",
+              "description": "Board ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "649885bb8cfd32ed13fd42d3"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "background": {
+                      "type": ["string", "null"],
+                      "description": "Board background(url/null)",
+                      "example": null
+                    }
+                  },
+                  "required": "background"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful update",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "example": "Background updated"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "400": {
+              "description": "Validation error (missing fields in body)"
+            },
+            "404": {
+              "description": "Board id (from params) not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete board",
+          "tags": ["Boards"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            },
+            {
+              "name": "boardId",
+              "in": "path",
+              "description": "Board ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "649885bb8cfd32ed13fd42d3"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful delete",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "example": "Board deleted"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "404": {
+              "description": "Board id (from params) not found"
+            }
+          }
+        }
+      },
+      "/columns": {
+        "post": {
+          "summary": "Add new column",
+          "tags": ["Columns"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "title": {
                       "type": "string",
                       "description": "Column title",
@@ -801,137 +913,167 @@
                       "description": "BoardId to which the column refer",
                       "example": "649885bb8cfd32ed13fd42d3"
                     }
-                  }
+                  },
+                  "required": ["title", "board"]
                 }
               }
             }
           },
-          "401": {
-            "description": "Problem with Authorization missing header, invalid token"
-          },
-          "400": {
-            "description": "Validation error (missing fields in body)"
-          }
-        }
-      }
-    },
-    "/columns/{columnId}": {
-      "patch": {
-        "summary": "Update column title",
-        "tags": ["Columns"],
-        "parameters": [
-          {
-            "name": "Authorization Token",
-            "in": "header",
-            "description": "User authorization token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-            }
-          },
-          {
-            "name": "columnId",
-            "in": "path",
-            "description": "Column ID",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "649885bb8cfd32ed13fd42d3"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Column title",
-                    "example": "Done"
-                  }
-                },
-                "required": "title"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful update",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "example": "Successful update"
+          "responses": {
+            "201": {
+              "description": "New column created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "description": "Column ID (generated by backend)",
+                        "example": "5f86793b8a7c4d2e"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                      },
+                      "board": {
+                        "type": "string",
+                        "description": "BoardId to which the column refer",
+                        "example": "649885bb8cfd32ed13fd42d3"
+                      }
                     }
                   }
                 }
               }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "400": {
+              "description": "Validation error (missing fields in body)"
             }
-          },
-          "401": {
-            "description": "Problem with Authorization missing header, invalid token"
-          },
-          "400": {
-            "description": "Validation error (missing fields in body)"
-          },
-          "404": {
-            "description": "Column id (from params) not found"
           }
         }
       },
-      "delete": {
-        "summary": "Delete board",
-        "tags": ["Columns"],
-        "parameters": [
-          {
-            "name": "Authorization Token",
-            "in": "header",
-            "description": "User authorization token",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+      "/columns/{columnId}": {
+        "patch": {
+          "summary": "Update column title",
+          "tags": ["Columns"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            },
+            {
+              "name": "columnId",
+              "in": "path",
+              "description": "Column ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "649885bb8cfd32ed13fd42d3"
+              }
             }
-          },
-          {
-            "name": "columnId",
-            "in": "path",
-            "description": "Column ID",
+          ],
+          "requestBody": {
             "required": true,
-            "schema": {
-              "type": "string",
-              "example": "649885bb8cfd32ed13fd42d3"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful delete",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "example": "Column deleted"
+                    "title": {
+                      "type": "string",
+                      "description": "Column title",
+                      "example": "Done"
                     }
-                  }
+                  },
+                  "required": "title"
                 }
               }
             }
           },
-          "401": {
-            "description": "Problem with Authorization missing header, invalid token"
-          },
-          "404": {
-            "description": "Board id (from params) not found"
+          "responses": {
+            "200": {
+              "description": "Successful update",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "example": "Successful update"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "400": {
+              "description": "Validation error (missing fields in body)"
+            },
+            "404": {
+              "description": "Column id (from params) not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete board",
+          "tags": ["Columns"],
+          "parameters": [
+            {
+              "name": "Authorization Token",
+              "in": "header",
+              "description": "User authorization token",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+              }
+            },
+            {
+              "name": "columnId",
+              "in": "path",
+              "description": "Column ID",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "649885bb8cfd32ed13fd42d3"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful delete",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "example": "Column deleted"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Problem with Authorization missing header, invalid token"
+            },
+            "404": {
+              "description": "Board id (from params) not found"
+            }
           }
         }
       }
