@@ -44,7 +44,7 @@ const addTask = async (req, res) => {
   column.tasks.push(newTask);
   await column.save();
 
-  res.status(200).json(savedTask);
+  res.status(201).json(savedTask);
 };
 
 module.exports = {
