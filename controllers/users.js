@@ -34,7 +34,7 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14s" });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
     expiresIn: "14d",
   });
@@ -50,6 +50,7 @@ const login = async (req, res) => {
 
 const refresh = async (req, res) => {
   const { refreshToken } = req.body;
+
   try {
     const { id } = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
     const isExist = await User.findOne({ refreshToken });
@@ -60,15 +61,15 @@ const refresh = async (req, res) => {
     const payload = {
       id,
     };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
-    const newResreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14s" });
+    const newRefreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
       expiresIn: "14d",
     });
-    await User.findByIdAndUpdate(id, { token, refreshToken: newResreshToken });
+    await User.findByIdAndUpdate(id, { token, refreshToken: newRefreshToken });
 
     res.json({
       token,
-      resreshToken: newResreshToken,
+      refreshToken: newRefreshToken,
     });
   } catch (error) {
     throw HttpError(403, error.message);
@@ -141,7 +142,7 @@ const updateUser = async (req, res) => {
 
 const logout = async (req, res) => {
   const { id } = req.user;
-  await User.findByIdAndUpdate(id, { token: null, resreshToken: null });
+  await User.findByIdAndUpdate(id, { token: null, refreshToken: null });
   res.status(204).json();
 };
 
