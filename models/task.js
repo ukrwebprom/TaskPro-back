@@ -37,20 +37,26 @@ const addSchema = Joi.object({
   priority: Joi.string().valid("low", "medium", "high", "none"),
 });
 
-// const updateSchema = Joi.object({
-//   title: Joi.string().required(),
-//   icon: Joi.string().required(),
-//   background: Joi.string().required(),
-// });
+const updateSchema = Joi.object({
+  title: Joi.string().required(),
+  description: Joi.string().required(),
+  deadline: Joi.string().required(),
+  priority: Joi.string().valid("low", "medium", "high", "none").required(),
+  column: Joi.string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required(),
+});
 
-// const updateBcgSchema = Joi.object({
-//   background: Joi.string().required(),
-// });
+const moveTaskSchema = Joi.object({
+  column: Joi.string()
+    .regex(/^[0-9a-fA-F]{24}$/)
+    .required(),
+});
 
 const taskSchemas = {
   addSchema,
-  //   updateSchema,
-  //   updateBcgSchema,
+  updateSchema,
+  moveTaskSchema,
 };
 
 taskSchema.post("save", HandleMongooseError);
