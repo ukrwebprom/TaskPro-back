@@ -13,6 +13,12 @@ const columnSchema = new Schema(
       ref: "board",
       required: true,
     },
+    tasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "task",
+      },
+    ],
   },
   { versionKey: false, timestamps: false }
 );

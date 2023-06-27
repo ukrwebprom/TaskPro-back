@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { HandleMongooseError } = require("../helpers");
 const Joi = require("joi");
-const { Column } = require("../models/column");
 
 const boardSchema = new Schema(
   {
