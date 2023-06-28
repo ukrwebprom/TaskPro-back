@@ -53,7 +53,7 @@ const googleAuth = async (req, res) => {
   await User.findByIdAndUpdate(req.user._id, { token, refreshToken });
 
   res.redirect(
-    `${FRONTEND_URL}/TaskPro/welcome?token=${token}&refreshToken=${refreshToken}`
+    `${FRONTEND_URL}/TaskPro?token=${token}&refreshToken=${refreshToken}`
   );
 };
 
