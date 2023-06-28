@@ -114,6 +114,24 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
+// const upload = async (req, res) => {
+//   const results = await Promise.all(
+//     req.files.map((file) => {
+//       return cloudinary.uploader.upload(file.path, {
+//         folder: "backgrounds",
+//         resource_type: "image",
+//         quality: "auto",
+//         fetch_format: "auto",
+//         public_id: file.originalname,
+//         format: "webp",
+//       });
+//     })
+//   );
+//   const urls = results.map((result) => result.secure_url);
+
+//   res.status(200).json(urls);
+// };
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
