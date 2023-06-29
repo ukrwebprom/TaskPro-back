@@ -34,7 +34,7 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14s" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
     expiresIn: "14d",
   });
@@ -61,7 +61,7 @@ const refresh = async (req, res) => {
     const payload = {
       id,
     };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14s" });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
     const newRefreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
       expiresIn: "14d",
     });
