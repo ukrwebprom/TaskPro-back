@@ -33,7 +33,7 @@ const getBoard = async (req, res) => {
 const addBoard = async (req, res) => {
   const { _id: user } = req.user;
   const result = await Board.create({ ...req.body, user });
-  res.status(201).json({ id: result.id });
+  res.status(201).json({ _id: result.id });
 };
 
 const updateBoard = async (req, res) => {
