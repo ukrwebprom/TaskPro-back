@@ -2,7 +2,7 @@ const { User } = require("../models/user");
 const { HttpError, ctrlWrapper } = require("../helpers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
+const { SECRET_KEY, REFRESH_SECRET_KEY, FRONTEND_URL } = process.env;
 const cloudinary = require("cloudinary").v2;
 
 const register = async (req, res) => {
@@ -46,6 +46,19 @@ const login = async (req, res) => {
     theme: user.theme,
     avatar: user.avatar,
   });
+};
+
+const googleAuth = async (req, res) => {
+  const payload = {
+    id: req.user._id,
+  };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
+  const refreshToken = jwt.sign(payload, SECRET_KEY, { expiresIn: "7d" });
+  await User.findByIdAndUpdate(req.user._id, { token, refreshToken });
+
+  res.redirect(
+    `${FRONTEND_URL}/TaskPro?token=${token}&refreshToken=${refreshToken}`
+  );
 };
 
 const refresh = async (req, res) => {
@@ -167,6 +180,7 @@ const logout = async (req, res) => {
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  googleAuth: ctrlWrapper(googleAuth),
   refresh: ctrlWrapper(refresh),
   me: ctrlWrapper(me),
   updateTheme: ctrlWrapper(updateTheme),
