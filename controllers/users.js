@@ -62,7 +62,7 @@ const updateTheme = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Not Found");
   }
-  res.status(200).json({ message: "Theme is updated" });
+  res.status(200).json({ theme: result.theme });
 };
 
 const updateUser = async (req, res) => {
