@@ -265,10 +265,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
+                    "theme": {
                       "type": "string",
-                      "description": "Success",
-                      "example": "Successful update"
+                      "description": "User's updated theme",
+                      "example": "dark"
                     }
                   }
                 }
