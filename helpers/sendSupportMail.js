@@ -13,4 +13,3 @@ const sendSupportMail = async (data) => {
 }
 
 module.exports = sendSupportMail;
-// taskpro.project@gmail.com
