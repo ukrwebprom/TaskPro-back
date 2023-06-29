@@ -7,6 +7,7 @@ const usersRouter = require("./routes/api/users");
 const boardRouter = require("./routes/api/boards");
 const columnRouter = require("./routes/api/columns");
 const taskRouter = require("./routes/api/tasks");
+const supportRouter = require("./routes/api/support");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/user", usersRouter);
 app.use("/boards", boardRouter);
 app.use("/columns", columnRouter);
 app.use("/tasks", taskRouter);
+app.use("/support", supportRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

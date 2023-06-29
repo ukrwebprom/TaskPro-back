@@ -4,8 +4,19 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getAll = async (req, res) => {
   const { _id: user } = req.user;
-  const result = await Board.find({ user });
-  res.status(200).json(result);
+  const boards = await Board.find({ user });
+  const populatedBoards = await Promise.all(
+    boards.map(async (board) => {
+      const populatedColumns = await Column.find({ board: board._id }).populate(
+        "tasks"
+      );
+      return {
+        ...board.toJSON(),
+        columns: populatedColumns,
+      };
+    })
+  );
+  res.status(200).json(populatedBoards);
 };
 
 const getBoard = async (req, res) => {

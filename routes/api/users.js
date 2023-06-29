@@ -20,6 +20,7 @@ router.get(
   passport.authenticate("google", { session: false }),
   ctrl.googleAuth
 );
+router.post("/refresh", validateBody(schemas.refreshSchema), ctrl.refresh);
 
 router.get("/me", authenticate, ctrl.me);
 router.patch(
