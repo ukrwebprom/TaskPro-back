@@ -53,12 +53,12 @@ const googleAuth = async (req, res) => {
     id: req.user._id,
   };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "14m" });
-  const refreshToken = jwt.sign(payload, SECRET_KEY, { expiresIn: "7d" });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
   await User.findByIdAndUpdate(req.user._id, { token, refreshToken });
 
-  res.redirect(
-    `${FRONTEND_URL}/TaskPro?token=${token}&refreshToken=${refreshToken}`
-  );
+  res.redirect(`${FRONTEND_URL}?token=${token}&refreshToken=${refreshToken}`);
 };
 
 const refresh = async (req, res) => {
@@ -80,7 +80,7 @@ const refresh = async (req, res) => {
     });
     await User.findByIdAndUpdate(id, { token, refreshToken: newRefreshToken });
 
-    res.json({
+    res.status(200).json({
       token,
       refreshToken: newRefreshToken,
     });
