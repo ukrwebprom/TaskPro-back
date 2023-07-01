@@ -3,8 +3,10 @@ const { Task } = require("../models/task");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const addColumn = async (req, res) => {
-  const result = await Column.create(req.body);
-  res.status(201).json(result);
+  const { board: boardId } = req.body;
+  const columns = await Column.find({ board: boardId });
+  const newColumn = await Column.create({ ...req.body, order: columns.length });
+  res.status(201).json(newColumn);
 };
 
 const updateColumn = async (req, res) => {
@@ -47,9 +49,36 @@ const addTask = async (req, res) => {
   res.status(201).json(savedTask);
 };
 
+const updateOrder = async (req, res) => {
+  const { newOrder } = req.body;
+  const { columnId } = req.params;
+  const column = ({ board: boardId, order: oldOrder } = await Column.findById(
+    columnId
+  ));
+  const columns = await Column.find({ board: boardId });
+  columns.sort((a, b) => a.order - b.order);
+  columns.splice(oldOrder, 1);
+  columns.splice(newOrder, 0, column);
+
+  const updatedColumns = await Promise.all(
+    columns.map(async (column, index) => {
+      const updatedColumn = await Column.findByIdAndUpdate(
+        column.id,
+        {
+          order: index,
+        },
+        { new: true }
+      );
+      return updatedColumn;
+    })
+  );
+  res.status(200).json({});
+};
+
 module.exports = {
   addColumn: ctrlWrapper(addColumn),
   updateColumn: ctrlWrapper(updateColumn),
   deleteColumn: ctrlWrapper(deleteColumn),
   addTask: ctrlWrapper(addTask),
+  updateOrder: ctrlWrapper(updateOrder),
 };
