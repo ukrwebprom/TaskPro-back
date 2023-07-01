@@ -23,20 +23,38 @@ const moveTask = async (req, res) => {
   }
   const oldColumnId = task.column;
   const oldColumn = await Column.findById(oldColumnId).populate("tasks");
-  if (!oldColumn) {
-    throw HttpError(404, "ColumnId not found");
-  }
+
   oldColumn.tasks.pull({ _id: taskId });
+  oldColumn.tasks.sort((a, b) => a.order - b.order);
+
+  const reorderedTasks = await Promise.all(
+    oldColumn.tasks.map(async (task, index) => {
+      const reorderedTask = await Task.findByIdAndUpdate(
+        task.id,
+        {
+          order: index,
+        },
+        { new: true }
+      );
+      return reorderedTask;
+    })
+  );
+
+  oldColumn.tasks = reorderedTasks;
   await oldColumn.save();
 
   const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
     new: true,
   });
+
   const column = await Column.findById(columnId).populate("tasks");
   if (!column) {
     throw HttpError(404, "ColumnId not found");
   }
+  updatedTask.order = column.tasks.length;
+  await updatedTask.save();
   column.tasks.push(updatedTask);
+
   await column.save();
 
   res.status(200).json({ message: "Task moved" });

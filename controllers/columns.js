@@ -41,9 +41,10 @@ const addTask = async (req, res) => {
   const newTask = new Task({
     ...req.body,
     column: columnId,
+    order: column.tasks.length,
   });
   const savedTask = await newTask.save();
-  column.tasks.push(newTask);
+  column.tasks.push(savedTask);
   await column.save();
 
   res.status(201).json(savedTask);
