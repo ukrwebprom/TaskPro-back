@@ -19,5 +19,11 @@ router.post(
   validateBody(taskSchemas.addSchema),
   ctrl.addTask
 );
+router.patch(
+  "/:columnId/order",
+  authenticate,
+  validateBody(schemas.updateOrderSchema),
+  ctrl.updateOrder
+);
 
 module.exports = router;

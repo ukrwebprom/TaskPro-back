@@ -13,6 +13,10 @@ const columnSchema = new Schema(
       ref: "board",
       required: true,
     },
+    order: {
+      type: Number,
+      required: true,
+    },
     tasks: [
       {
         type: Schema.Types.ObjectId,
@@ -34,9 +38,14 @@ const updateSchema = Joi.object({
   title: Joi.string().required(),
 });
 
+const updateOrderSchema = Joi.object({
+  newOrder: Joi.number().required(),
+});
+
 const schemas = {
   addSchema,
   updateSchema,
+  updateOrderSchema,
 };
 
 columnSchema.post("save", HandleMongooseError);
