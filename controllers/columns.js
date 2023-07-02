@@ -36,8 +36,22 @@ const deleteColumn = async (req, res) => {
       await Task.findByIdAndDelete(task.id);
     })
   );
-
   await Column.findByIdAndDelete(columnId);
+  const columns = await Column.find({ board: column.board });
+  columns.sort((a, b) => a.order - b.order);
+
+  const updatedColumns = await Promise.all(
+    columns.map(async (column, index) => {
+      const updatedColumn = await Column.findByIdAndUpdate(
+        column.id,
+        {
+          order: index,
+        },
+        { new: true }
+      );
+      return updatedColumn;
+    })
+  );
 
   res.status(200).json({ message: "Column deleted" });
 };
