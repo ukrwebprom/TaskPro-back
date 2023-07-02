@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", authenticate, ctrl.getAll);
 router.post("/", authenticate, validateBody(schemas.addSchema), ctrl.addBoard);
-router.get("/:boardId", authenticate, ctrl.getBoard);
 router.put(
   "/:boardId",
   authenticate,
