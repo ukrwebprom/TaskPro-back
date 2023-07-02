@@ -159,23 +159,20 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
-// const upload = async (req, res) => {
-//   const results = await Promise.all(
-//     req.files.map((file) => {
-//       return cloudinary.uploader.upload(file.path, {
-//         folder: "backgrounds",
-//         resource_type: "image",
-//         quality: "auto",
-//         fetch_format: "auto",
-//         public_id: file.originalname,
-//         format: "webp",
-//       });
-//     })
-//   );
-//   const urls = results.map((result) => result.secure_url);
+const uploadAvatar = async (req, res) => {
+  const locaFilePath = req.file.path;
+  const result = await cloudinary.uploader.upload(locaFilePath, {
+    folder: "avatars",
+    resource_type: "image",
+    quality: "auto",
+    fetch_format: "auto",
+    public_id: req.file.originalname,
+    format: "webp",
+    transformation: [{ width: 136, crop: "fill" }],
+  });
 
-//   res.status(200).json(urls);
-// };
+  res.status(200).json({ url: result.secure_url });
+};
 
 module.exports = {
   register: ctrlWrapper(register),
@@ -186,4 +183,5 @@ module.exports = {
   updateTheme: ctrlWrapper(updateTheme),
   updateUser: ctrlWrapper(updateUser),
   logout: ctrlWrapper(logout),
+  uploadAvatar: ctrlWrapper(uploadAvatar),
 };

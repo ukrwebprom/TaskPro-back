@@ -61,6 +61,7 @@ const updateUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).max(64).required(),
   name: Joi.string().required(),
+  avatar: Joi.string(),
 });
 
 const schemas = {
