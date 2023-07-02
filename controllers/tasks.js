@@ -4,15 +4,22 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const updateTask = async (req, res) => {
   const { taskId } = req.params;
-
-  const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
-    new: true,
-  });
-  if (!updatedTask) {
+  const task = Task.findById(taskId);
+  if (!task) {
     throw new HttpError(404, "No task found with that id");
   }
+
+  await Task.findByIdAndUpdate(
+    taskId,
+    { ...req.body, order: task.order },
+    {
+      new: true,
+    }
+  );
+
   res.status(200).json({ message: "Task updated" });
 };
+
 const moveTask = async (req, res) => {
   const { taskId } = req.params;
   const { column: columnId } = req.body;
