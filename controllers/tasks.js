@@ -4,18 +4,13 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const updateTask = async (req, res) => {
   const { taskId } = req.params;
-  const task = Task.findById(taskId);
-  if (!task) {
+
+  const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+    new: true,
+  });
+  if (!updatedTask) {
     throw new HttpError(404, "No task found with that id");
   }
-
-  await Task.findByIdAndUpdate(
-    taskId,
-    { ...req.body, order: task.order },
-    {
-      new: true,
-    }
-  );
 
   res.status(200).json({ message: "Task updated" });
 };
@@ -69,11 +64,26 @@ const moveTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   const { taskId } = req.params;
-
-  const result = await Task.findByIdAndDelete(taskId);
-  if (!result) {
+  const task = ({ column: columnId } = await Task.findById(taskId));
+  if (!task) {
     throw new HttpError(404, "No task found with that id");
   }
+  await Task.findByIdAndDelete(taskId);
+  const tasks = await Task.find({ column: columnId });
+  tasks.sort((a, b) => a.order - b.order);
+  const reorderedTasks = await Promise.all(
+    tasks.map(async (task, index) => {
+      const reorderedTask = await Task.findByIdAndUpdate(
+        task.id,
+        {
+          order: index,
+        },
+        { new: true }
+      );
+      return reorderedTask;
+    })
+  );
+
   res.status(200).json({ message: "Task deleted" });
 };
 
