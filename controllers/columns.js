@@ -61,7 +61,7 @@ const updateOrder = async (req, res) => {
   columns.splice(oldOrder, 1);
   columns.splice(newOrder, 0, column);
 
-  const updatedColumns = await Promise.all(
+  await Promise.all(
     columns.map(async (column, index) => {
       const updatedColumn = await Column.findByIdAndUpdate(
         column.id,
@@ -73,7 +73,7 @@ const updateOrder = async (req, res) => {
       return updatedColumn;
     })
   );
-  res.status(200).json({});
+  res.status(200).json({ message: "Order changed" });
 };
 
 module.exports = {
