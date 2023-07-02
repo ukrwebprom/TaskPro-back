@@ -25,10 +25,20 @@ const updateColumn = async (req, res) => {
 };
 
 const deleteColumn = async (req, res) => {
-  const result = await Column.findByIdAndDelete(req.params.columnId);
-  if (!result) {
+  const { columnId } = req.params;
+  const column = await Column.findById(columnId).populate("tasks");
+  if (!column) {
     throw HttpError(404, "Not found");
   }
+  const { tasks } = column;
+  await Promise.all(
+    tasks.map(async (task) => {
+      await Task.findByIdAndDelete(task.id);
+    })
+  );
+
+  await Column.findByIdAndDelete(columnId);
+
   res.status(200).json({ message: "Column deleted" });
 };
 
