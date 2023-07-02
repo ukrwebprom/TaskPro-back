@@ -41,9 +41,10 @@ const addTask = async (req, res) => {
   const newTask = new Task({
     ...req.body,
     column: columnId,
+    order: column.tasks.length,
   });
   const savedTask = await newTask.save();
-  column.tasks.push(newTask);
+  column.tasks.push(savedTask);
   await column.save();
 
   res.status(201).json(savedTask);
@@ -60,7 +61,7 @@ const updateOrder = async (req, res) => {
   columns.splice(oldOrder, 1);
   columns.splice(newOrder, 0, column);
 
-  const updatedColumns = await Promise.all(
+  await Promise.all(
     columns.map(async (column, index) => {
       const updatedColumn = await Column.findByIdAndUpdate(
         column.id,
@@ -72,7 +73,7 @@ const updateOrder = async (req, res) => {
       return updatedColumn;
     })
   );
-  res.status(200).json({});
+  res.status(200).json({ message: "Order changed" });
 };
 
 module.exports = {

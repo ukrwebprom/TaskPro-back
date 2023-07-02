@@ -26,6 +26,10 @@ const taskSchema = new Schema(
       ref: "column",
       required: true,
     },
+    order: {
+      type: Number,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: false }
 );
