@@ -1,5 +1,6 @@
 const { Board } = require("../models/board");
 const { Column } = require("../models/column");
+const { Task } = require("../models/task");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getAll = async (req, res) => {
@@ -65,11 +66,31 @@ const updateBoardBcg = async (req, res) => {
 };
 
 const deleteBoard = async (req, res) => {
-  const result = await Board.findByIdAndDelete(req.params.boardId);
+  const { boardId } = req.params;
+  const result = await Board.findByIdAndDelete(boardId);
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  res.status(200).json({ message: "Board deleted " });
+  const columns = await Column.find({ board: boardId }).populate("tasks");
+  if (columns.length) {
+    await Promise.all(
+      columns.map(async (column) => {
+        if (column.tasks.length) {
+          const tasks = [...column.tasks];
+          const flatTasks = tasks.flat();
+
+          await Promise.all(
+            flatTasks.map(async (task) => {
+              await Task.findByIdAndDelete(task.id);
+            })
+          );
+        }
+        await Column.findByIdAndDelete(column.id);
+      })
+    );
+  }
+
+  res.status(200).json({ message: "Board deleted" });
 };
 
 module.exports = {
