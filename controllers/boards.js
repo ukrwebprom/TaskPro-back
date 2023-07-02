@@ -8,27 +8,22 @@ const getAll = async (req, res) => {
   const boards = await Board.find({ user });
   const populatedBoards = await Promise.all(
     boards.map(async (board) => {
-      const populatedColumns = await Column.find({ board: board._id }).populate(
-        "tasks"
-      );
+      const populatedColumns = await Column.find({ board: board._id })
+        .populate("tasks")
+        .sort({ order: 1 });
+
+      const sortedColumns = populatedColumns.map((column) => {
+        const sortedTasks = column.tasks.sort((a, b) => a.order - b.order);
+        return { ...column.toJSON(), tasks: sortedTasks };
+      });
+
       return {
         ...board.toJSON(),
-        columns: populatedColumns,
+        columns: sortedColumns,
       };
     })
   );
   res.status(200).json(populatedBoards);
-};
-
-const getBoard = async (req, res) => {
-  const { boardId } = req.params;
-  const board = await Board.findById(boardId);
-  if (!board) {
-    return res.status(404).json({ error: "Board not found" });
-  }
-  const columns = await Column.find({ board: boardId }).populate("tasks");
-
-  res.status(200).json(columns);
 };
 
 const addBoard = async (req, res) => {
@@ -98,6 +93,5 @@ module.exports = {
   addBoard: ctrlWrapper(addBoard),
   updateBoard: ctrlWrapper(updateBoard),
   updateBoardBcg: ctrlWrapper(updateBoardBcg),
-  getBoard: ctrlWrapper(getBoard),
   deleteBoard: ctrlWrapper(deleteBoard),
 };
