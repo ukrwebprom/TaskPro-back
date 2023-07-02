@@ -29,13 +29,21 @@ router.patch(
   validateBody(schemas.themeSchema),
   ctrl.updateTheme
 );
+
+// router.put(
+//   "/update",
+//   authenticate,
+//   upload.single("avatar"),
+//   validateBody(schemas.updateUserSchema),
+//   ctrl.updateUser
+// );
 router.put(
   "/update",
   authenticate,
-  upload.single("avatar"),
   validateBody(schemas.updateUserSchema),
   ctrl.updateUser
 );
 router.post("/logout", authenticate, ctrl.logout);
+router.post("/upload", upload.single("avatar"), ctrl.uploadAvatar);
 
 module.exports = router;
