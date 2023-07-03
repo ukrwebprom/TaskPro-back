@@ -21,10 +21,39 @@ const moveTask = async (req, res) => {
 
   const task = await Task.findById(taskId);
   if (!task) {
-    throw new HttpError(404, "No task found with that id");
+    throw new HttpError(404, "No task found ");
   }
-  const oldColumnId = task.column;
+  const column = await Column.findById(columnId).populate("tasks");
+  if (!column) {
+    throw new HttpError(404, "No column found ");
+  }
 
+  const oldColumnId = task.column.toString();
+
+  if (oldColumnId === columnId && newOrder !== undefined) {
+    const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+      new: true,
+    });
+
+    column.tasks.splice(task.order, 1);
+    column.tasks.sort((a, b) => a.order - b.order);
+    column.tasks.splice(newOrder, 0, updatedTask);
+
+    const reorderedTasks = await Promise.all(
+      column.tasks.map(async (task, index) => {
+        const reorderedTask = await Task.findByIdAndUpdate(
+          task.id,
+          {
+            order: index,
+          },
+          { new: true }
+        );
+        return reorderedTask;
+      })
+    );
+    column.tasks = reorderedTasks;
+    await column.save();
+  }
   if (oldColumnId !== columnId) {
     const oldColumn = await Column.findById(oldColumnId).populate("tasks");
 
@@ -47,33 +76,24 @@ const moveTask = async (req, res) => {
     oldColumn.tasks = reorderedTasks;
     await oldColumn.save();
 
-    const column = await Column.findById(columnId).populate("tasks");
-    if (!column) {
-      throw HttpError(404, "ColumnId not found");
-    }
-    const { tasks } = column;
-
-    if (!newOrder) {
+    if (newOrder === undefined) {
       const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
         new: true,
       });
-      updatedTask.order = tasks.length;
+      updatedTask.order = column.tasks.length;
       await updatedTask.save();
-      tasks.push(updatedTask);
+      column.tasks.push(updatedTask);
 
       await column.save();
     } else {
-      const updatedTask = await Task.findByIdAndUpdate(
-        taskId,
-        { column: columnId },
-        {
-          new: true,
-        }
-      );
-      tasks.splice(newOrder, 0, updatedTask);
-      tasks.sort((a, b) => a.order - b.order);
+      const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+        new: true,
+      });
+      column.tasks.sort((a, b) => a.order - b.order);
+      column.tasks.splice(newOrder, 0, updatedTask);
+
       const reorderedTasks = await Promise.all(
-        tasks.map(async (task, index) => {
+        column.tasks.map(async (task, index) => {
           const reorderedTask = await Task.findByIdAndUpdate(
             task.id,
             {
@@ -87,28 +107,6 @@ const moveTask = async (req, res) => {
       column.tasks = reorderedTasks;
       await column.save();
     }
-  }
-  if (oldColumnId === columnId && newOrder) {
-    const column = await Column.findById(columnId).populate("tasks");
-    const { tasks } = column;
-    tasks.splice(task.order, 1);
-    tasks.sort((a, b) => a.order - b.order);
-    tasks.splice(newOrder, 0, task);
-
-    const reorderedTasks = await Promise.all(
-      tasks.map(async (task, index) => {
-        const reorderedTask = await Task.findByIdAndUpdate(
-          task.id,
-          {
-            order: index,
-          },
-          { new: true }
-        );
-        return reorderedTask;
-      })
-    );
-    column.tasks = reorderedTasks;
-    await column.save();
   }
 
   res.status(200).json({ message: "Task moved" });

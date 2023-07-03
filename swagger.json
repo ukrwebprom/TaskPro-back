@@ -1542,9 +1542,14 @@
                     "type": "string",
                     "description": "ColumnId to which task refer",
                     "example": "649885bb8cfd32ed13fd42d3"
+                  },
+                  "newOrder": {
+                    "type": "number",
+                    "description": "New task order",
+                    "example": 3
                   }
                 },
-                "required": "column"
+                "required": ["column"]
               }
             }
           }
