@@ -30,15 +30,12 @@ const deleteColumn = async (req, res) => {
   if (!column) {
     throw HttpError(404, "Not found");
   }
+
   const { tasks } = column;
-  await Promise.all(
-    tasks.map(async (task) => {
-      await Task.findByIdAndDelete(task.id);
-    })
-  );
+  await Task.deleteMany({ _id: { $in: tasks.map((task) => task._id) } });
   await Column.findByIdAndDelete(columnId);
-  const columns = await Column.find({ board: column.board });
-  columns.sort((a, b) => a.order - b.order);
+
+  const columns = await Column.find({ board: column.board }).sort({ order: 1 });
 
   const updatedColumns = await Promise.all(
     columns.map(async (column, index) => {
@@ -69,7 +66,7 @@ const addTask = async (req, res) => {
   });
   const savedTask = await newTask.save();
   column.tasks.push(savedTask);
-  await column.save();
+  await column.updateOne({ tasks: column.tasks });
 
   res.status(201).json(savedTask);
 };
@@ -85,18 +82,13 @@ const updateOrder = async (req, res) => {
   columns.splice(oldOrder, 1);
   columns.splice(newOrder, 0, column);
 
-  await Promise.all(
-    columns.map(async (column, index) => {
-      const updatedColumn = await Column.findByIdAndUpdate(
-        column.id,
-        {
-          order: index,
-        },
-        { new: true }
-      );
-      return updatedColumn;
-    })
-  );
+  for (let index = 0; index < columns.length; index++) {
+    const updatedColumn = await Column.findByIdAndUpdate(
+      columns[index].id,
+      { order: index },
+      { new: true }
+    );
+  }
   res.status(200).json({ message: "Order changed" });
 };
 

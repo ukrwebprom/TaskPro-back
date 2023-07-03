@@ -67,22 +67,13 @@ const deleteBoard = async (req, res) => {
     throw HttpError(404, "Not found");
   }
   const columns = await Column.find({ board: boardId }).populate("tasks");
-  if (columns.length) {
-    await Promise.all(
-      columns.map(async (column) => {
-        if (column.tasks.length) {
-          const tasks = [...column.tasks];
-          const flatTasks = tasks.flat();
-
-          await Promise.all(
-            flatTasks.map(async (task) => {
-              await Task.findByIdAndDelete(task.id);
-            })
-          );
-        }
-        await Column.findByIdAndDelete(column.id);
-      })
-    );
+  for (const column of columns) {
+    if (column.tasks.length) {
+      await Task.deleteMany({
+        _id: { $in: column.tasks.map((task) => task._id) },
+      });
+    }
+    await Column.findByIdAndDelete(column.id);
   }
 
   res.status(200).json({ message: "Board deleted" });
