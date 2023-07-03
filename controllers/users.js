@@ -111,21 +111,7 @@ const updateTheme = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  let url = null;
-  if (req.file) {
-    const locaFilePath = req.file.path;
-    const result = await cloudinary.uploader.upload(locaFilePath, {
-      folder: "avatars",
-      resource_type: "image",
-      quality: "auto",
-      fetch_format: "auto",
-      public_id: req.file.originalname,
-      format: "webp",
-      transformation: [{ width: 136, crop: "fill" }],
-    });
-    url = result.secure_url;
-  }
-  const { id, avatar } = req.user;
+  const { id } = req.user;
   const { password, email } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -139,15 +125,12 @@ const updateUser = async (req, res) => {
     {
       ...req.body,
       password: hashedPassword,
-      avatar: url || avatar,
     },
     { new: true }
   );
-  if (!updatedUser) {
-    throw HttpError(404, "Bad request");
-  }
+
   res.status(200).json({
-    avatarUrl: updatedUser.avatar,
+    avatar: updatedUser.avatar,
     name: updatedUser.name,
     email: updatedUser.email,
   });
