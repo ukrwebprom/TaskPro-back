@@ -55,6 +55,7 @@ const moveTaskSchema = Joi.object({
   column: Joi.string()
     .regex(/^[0-9a-fA-F]{24}$/)
     .required(),
+  order: Joi.number(),
 });
 
 const taskSchemas = {
