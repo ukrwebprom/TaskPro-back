@@ -21,69 +21,90 @@ const moveTask = async (req, res) => {
 
   const task = await Task.findById(taskId);
   if (!task) {
-    throw new HttpError(404, "No task found");
+    throw new HttpError(404, "No task found ");
+  }
+  const column = await Column.findById(columnId).populate("tasks");
+  if (!column) {
+    throw new HttpError(404, "No column found ");
   }
 
   const oldColumnId = task.column.toString();
 
   if (oldColumnId === columnId && newOrder !== undefined) {
-    const column = await Column.findById(columnId).populate("tasks");
-    if (!column) {
-      throw new HttpError(404, "No column found");
-    }
+    const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+      new: true,
+    });
 
-    column.tasks.pull({ _id: taskId });
-    column.tasks.splice(newOrder, 0, task);
+    column.tasks.splice(task.order, 1);
+    column.tasks.sort((a, b) => a.order - b.order);
+    column.tasks.splice(newOrder, 0, updatedTask);
 
-    await Promise.all(
+    const reorderedTasks = await Promise.all(
       column.tasks.map(async (task, index) => {
-        task.order = index;
-        await task.save();
+        const reorderedTask = await Task.findByIdAndUpdate(
+          task.id,
+          {
+            order: index,
+          },
+          { new: true }
+        );
+        return reorderedTask;
       })
     );
-
+    column.tasks = reorderedTasks;
     await column.save();
-  } else if (oldColumnId !== columnId) {
+  }
+  if (oldColumnId !== columnId) {
     const oldColumn = await Column.findById(oldColumnId).populate("tasks");
-    if (!oldColumn) {
-      throw new HttpError(404, "No column found");
-    }
 
     oldColumn.tasks.pull({ _id: taskId });
+    oldColumn.tasks.sort((a, b) => a.order - b.order);
 
-    await Promise.all(
+    const reorderedTasks = await Promise.all(
       oldColumn.tasks.map(async (task, index) => {
-        task.order = index;
-        await task.save();
+        const reorderedTask = await Task.findByIdAndUpdate(
+          task.id,
+          {
+            order: index,
+          },
+          { new: true }
+        );
+        return reorderedTask;
       })
     );
 
-    if (newOrder !== undefined) {
-      const column = await Column.findById(columnId).populate("tasks");
-      if (!column) {
-        throw new HttpError(404, "No column found");
-      }
+    oldColumn.tasks = reorderedTasks;
+    await oldColumn.save();
 
-      column.tasks.splice(newOrder, 0, task);
-
-      await Promise.all(
-        column.tasks.map(async (task, index) => {
-          task.order = index;
-          await task.save();
-        })
-      );
+    if (newOrder === undefined) {
+      const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+        new: true,
+      });
+      updatedTask.order = column.tasks.length;
+      await updatedTask.save();
+      column.tasks.push(updatedTask);
 
       await column.save();
     } else {
-      task.order = oldColumn.tasks.length;
-      await task.save();
+      const updatedTask = await Task.findByIdAndUpdate(taskId, req.body, {
+        new: true,
+      });
+      column.tasks.sort((a, b) => a.order - b.order);
+      column.tasks.splice(newOrder, 0, updatedTask);
 
-      const column = await Column.findById(columnId);
-      if (!column) {
-        throw new HttpError(404, "No column found");
-      }
-
-      column.tasks.push(task);
+      const reorderedTasks = await Promise.all(
+        column.tasks.map(async (task, index) => {
+          const reorderedTask = await Task.findByIdAndUpdate(
+            task.id,
+            {
+              order: index,
+            },
+            { new: true }
+          );
+          return reorderedTask;
+        })
+      );
+      column.tasks = reorderedTasks;
       await column.save();
     }
   }
