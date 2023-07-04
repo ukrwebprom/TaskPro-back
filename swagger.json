@@ -43,28 +43,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "User's name",
-                    "example": "Duka"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "User's email",
-                    "example": "duka@mail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "maxLength": 32,
-                    "description": "User's password",
-                    "example": "pwd1234567"
-                  }
-                },
-                "required": ["email", "password", "name"]
+                "$ref": "#/components/schemas/RegistrationRequest",
+                "type": "object"
               }
             }
           }
@@ -103,23 +83,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "User's email",
-                    "example": "duka@mail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "maxLength": 32,
-                    "description": "User's password",
-                    "example": "pwd1234567"
-                  }
-                },
-                "required": ["email", "password"]
+                "$ref": "#/components/schemas/LoginRequest",
+                "type": "object"
               }
             }
           }
@@ -130,34 +95,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "description": "User's token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-                    },
-                    "refreshToken": {
-                      "type": "string",
-                      "description": "User's token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVlOWFjMTJiZjlhYWIyMmJhMGE4MCIsImlhdCI6MTY4ODA1OTkwMSwiZXhwIjoxNjg4MTQ2MzAxfQ.6kT1_mUJQp4f1H_c7GklH1WK4Q_IUv6-7MJ5wjgnLQI"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "User's name",
-                      "example": "Duka"
-                    },
-                    "theme": {
-                      "type": "string",
-                      "enum": ["light", "dark", "violet"],
-                      "description": "User's theme",
-                      "example": "dark"
-                    },
-                    "avatar": {
-                      "type": "string",
-                      "description": "User's avatar"
-                    }
-                  }
+                  "$ref": "#/components/schemas/LoginResponse",
+                  "type": "object"
                 }
               }
             }
@@ -180,15 +119,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "refreshToken": {
-                    "type": "string",
-                    "description": "User's refreshToken",
-                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-                  }
-                },
-                "required": "refreshToken"
+                "$ref": "#/components/schemas/RefreshRequest",
+                "type": "object"
               }
             }
           }
@@ -199,19 +131,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "description": "User's token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
-                    },
-                    "refreshToken": {
-                      "type": "string",
-                      "description": "User's token",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVlOWFjMTJiZjlhYWIyMmJhMGE4MCIsImlhdCI6MTY4ODA1OTkwMSwiZXhwIjoxNjg4MTQ2MzAxfQ.6kT1_mUJQp4f1H_c7GklH1WK4Q_IUv6-7MJ5wjgnLQI"
-                    }
-                  }
+                  "$ref": "#/components/schemas/RefreshResponse",
+                  "type": "object"
                 }
               }
             }
@@ -270,30 +191,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "User's name",
-                      "example": "Duka"
-                    },
-                    "email": {
-                      "type": "string",
-                      "format": "email",
-                      "description": "User's email",
-                      "example": "duka@mail.com"
-                    },
-                    "avatar": {
-                      "type": "string",
-                      "description": "User's avatar"
-                    },
-                    "theme": {
-                      "type": "string",
-                      "enum": ["light", "dark", "violet"],
-                      "description": "User's theme",
-                      "example": "dark"
-                    }
-                  }
+                  "$ref": "#/components/schemas/CurrentUserResponse",
+                  "type": "object"
                 }
               }
             }
@@ -326,15 +225,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "theme": {
-                    "type": "string",
-                    "description": "User's theme",
-                    "enum": ["dark", "light", "violet"],
-                    "example": "violet"
-                  }
-                },
-                "required": "theme"
+                "$ref": "#/components/schemas/UserThemeRequest"
               }
             }
           }
@@ -388,35 +279,10 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "avatar": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "User's avatar file"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "User's name",
-                    "example": "Duka"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "User's email",
-                    "example": "duka@mail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "maxLength": 32,
-                    "description": "User's password",
-                    "example": "pwd1234567"
-                  }
-                },
-                "required": ["name", "email", "password"]
+                "$ref": "#components/schemas/UserUpdateRequest"
               }
             }
           }
@@ -428,24 +294,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "avatar": {
-                      "type": ["string", "null"],
-                      "nullable": true,
-                      "description": "URL or null",
-                      "example": "https://res.cloudinary.com/pro-task-cloud/image/upload/v1687533126/avatars/y8y1fx9pg7qmjyik3vgo.png"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "User's name",
-                      "example": "Duka"
-                    },
-                    "email": {
-                      "type": "string",
-                      "description": "User's email",
-                      "example": "duka@mail.com"
-                    }
-                  }
+                  "$ref": "#components/schemas/UserUpdateResponse"
                 }
               }
             }
@@ -514,222 +363,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "description": "Board Id",
-                        "example": "5f86793b8a7c4d2e"
-                      },
-                      "title": {
-                        "type": "string",
-                        "description": "Title of the board",
-                        "example": "My board"
-                      },
-                      "icon": {
-                        "type": "string",
-                        "description": "Icon name for this board",
-                        "example": "star"
-                      },
-                      "background": {
-                        "type": ["null", "string"],
-                        "nullable": true,
-                        "description": "Board background(url/null)",
-                        "example": null
-                      },
-                      "user": {
-                        "type": "string",
-                        "description": "User's id to whom this board refer (generated by backend)",
-                        "example": "5f86793b8a7c4d2e"
-                      },
-                      "columns": {
-                        "type": "array",
-                        "properties": {
-                          "type": "object",
-                          "properties": {
-                            "_id": {
-                              "type": "string",
-                              "description": "Column Id",
-                              "example": "649885bb8cfd32ed13fd42d3"
-                            },
-                            "title": {
-                              "type": "string",
-                              "description": "Column title",
-                              "example": "To do"
-                            },
-                            "board": {
-                              "type": "string",
-                              "description": "BoardId to which the columns refers",
-                              "example": "649885bb8cfd32ed13fd42d3"
-                            },
-                            "order": {
-                              "type": "number",
-                              "description": "Column order",
-                              "example": 4
-                            },
-                            "tasks": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "_id": {
-                                    "type": "string",
-                                    "description": "Task Id",
-                                    "example": "649885bb8cfd32ed13fd42d3"
-                                  },
-                                  "title": {
-                                    "type": "string",
-                                    "description": "Task title",
-                                    "example": "To buy some food"
-                                  },
-                                  "description": {
-                                    "type": "string",
-                                    "description": "Task description",
-                                    "example": "Bread, meat and bla bla bla or dubi dubi dubi"
-                                  },
-                                  "priority": {
-                                    "type": "string",
-                                    "enum": ["low", "medium", "high", "none"],
-                                    "description": "Task priority",
-                                    "example": "high"
-                                  },
-                                  "deadline": {
-                                    "type": "string",
-                                    "description": "Task deadline",
-                                    "example": "2023-07-21T20:57:15.000Z"
-                                  },
-                                  "order": {
-                                    "type": "number",
-                                    "description": "Task order",
-                                    "example": 4
-                                  },
-                                  "column": {
-                                    "type": "string",
-                                    "description": "ColumnId to which the task refers"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "example": {
-                      "example1": {
-                        "value": [
-                          {
-                            "_id": "6499fc7f8f5b7f86f156a98d",
-                            "title": "Team project",
-                            "icon": "computer",
-                            "background": null,
-                            "user": "64942b28312cf3abea116334",
-                            "columns": [
-                              {
-                                "_id": "6499fd028f5b7f86f156a990",
-                                "title": "layout",
-                                "board": "6499fc7f8f5b7f86f156a98d",
-                                "order": 0,
-                                "tasks": [
-                                  {
-                                    "_id": "649b55ecdd5a42896aae372a",
-                                    "title": "sidebar layout",
-                                    "description": "blablablabla",
-                                    "priority": "none",
-                                    "deadline": "2023-07-21T20:57:15.000Z",
-                                    "order": 0,
-                                    "column": "6499fd028f5b7f86f156a990"
-                                  },
-                                  {
-                                    "_id": "649b55f7dd5a42896aae3731",
-                                    "title": "dashboard layout",
-                                    "description": "blablablabla",
-                                    "priority": "none",
-                                    "deadline": "2023-07-21T20:57:15.000Z",
-                                    "order": 1,
-                                    "column": "6499fd028f5b7f86f156a990"
-                                  }
-                                ]
-                              },
-                              {
-                                "_id": "6499fd0d8f5b7f86f156a993",
-                                "title": "back",
-                                "board": "6499fc7f8f5b7f86f156a98d",
-                                "order": 1,
-                                "tasks": [
-                                  {
-                                    "_id": "649b5603dd5a42896aae3738",
-                                    "title": "routes",
-                                    "description": "blablablabla",
-                                    "priority": "none",
-                                    "deadline": "2023-07-21T20:57:15.000Z",
-                                    "order": 0,
-                                    "column": "6499fd0d8f5b7f86f156a993"
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "_id": "649ca3c0efe66a4b29e011fb",
-                            "title": "My favourite project",
-                            "icon": "star",
-                            "background": null,
-                            "user": "64942b28312cf3abea116334",
-                            "columns": []
-                          },
-                          {
-                            "_id": "649ca3deefe66a4b29e011fe",
-                            "title": "My unrealistic project",
-                            "icon": "star",
-                            "background": null,
-                            "user": "64942b28312cf3abea116334",
-                            "columns": [
-                              {
-                                "_id": "649ca4e4efe66a4b29e01205",
-                                "title": "Believe in good people, love and miracles",
-                                "board": "649ca3deefe66a4b29e011fe",
-                                "order": 0,
-                                "tasks": []
-                              },
-                              {
-                                "_id": "649ca4fcefe66a4b29e01208",
-                                "title": "Live forever",
-                                "board": "649ca3deefe66a4b29e011fe",
-                                "order": 1,
-                                "tasks": []
-                              },
-                              {
-                                "_id": "649ca526efe66a4b29e0120b",
-                                "title": "Back to Ukraine",
-                                "board": "649ca3deefe66a4b29e011fe",
-                                "order": 2,
-                                "tasks": [
-                                  {
-                                    "_id": "649ca578efe66a4b29e0120f",
-                                    "title": "wash away all occupants",
-                                    "description": "tra ta ta ta",
-                                    "priority": "high",
-                                    "deadline": "2023-07-21T20:57:15.000Z",
-                                    "order": 0,
-                                    "column": "649ca526efe66a4b29e0120b"
-                                  },
-                                  {
-                                    "_id": "649ca59defe66a4b29e01216",
-                                    "title": "live peaceful life",
-                                    "description": "ahhhhhhh",
-                                    "priority": "high",
-                                    "deadline": "2023-07-21T20:57:15.000Z",
-                                    "order": 1,
-                                    "column": "649ca526efe66a4b29e0120b"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/AllBoardsWithColumnsAndTasksResponse"
                 }
               }
             }
@@ -760,24 +394,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Board title",
-                    "example": "My project"
-                  },
-                  "icon": {
-                    "type": "string",
-                    "description": "Board icon name",
-                    "example": "star"
-                  },
-                  "background": {
-                    "type": ["string", "null"],
-                    "description": "Board background(url/null)",
-                    "example": null
-                  }
-                },
-                "required": ["title", "icon"]
+                "$ref": "#/components/schemas/AddingNewBoardRequest"
               }
             }
           }
@@ -789,14 +406,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Board",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Board ID (generated by backend)",
-                      "example": "5f86793b8a7c4d2e"
-                    }
-                  }
+                  "$ref": "#/components/schemas/AddingNewBoardResponse"
                 }
               }
             }
@@ -842,24 +452,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Board title",
-                    "example": "My project"
-                  },
-                  "icon": {
-                    "type": "string",
-                    "description": "Board icon name",
-                    "example": "star"
-                  },
-                  "background": {
-                    "type": ["string", "null"],
-                    "description": "Board background(url/null)",
-                    "example": null
-                  }
-                },
-                "required": ["title", "icon", "background"]
+                "$ref": "#/components/schemas/UpdateBoardRequest"
               }
             }
           }
@@ -922,14 +515,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "background": {
-                    "type": ["string", "null"],
-                    "description": "Board background(url/null)",
-                    "example": null
-                  }
-                },
-                "required": "background"
+                "$ref": "#/components/schemas/UpdateBackgroundRequest"
               }
             }
           }
@@ -1033,19 +619,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Column title",
-                    "example": "To do"
-                  },
-                  "board": {
-                    "type": "string",
-                    "description": "BoardId to which the column refer",
-                    "example": "649885bb8cfd32ed13fd42d3"
-                  }
-                },
-                "required": ["title", "board"]
+                "$ref": "#/components/schemas/AddingNewColumnRequest"
               }
             }
           }
@@ -1057,28 +631,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Column ID (generated by backend)",
-                      "example": "5f86793b8a7c4d2e"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "Column title",
-                      "example": "To do"
-                    },
-                    "board": {
-                      "type": "string",
-                      "description": "BoardId to which the column refer",
-                      "example": "649885bb8cfd32ed13fd42d3"
-                    },
-                    "order": {
-                      "type": "number",
-                      "description": "Column's order (generated by backend)",
-                      "example": 3
-                    }
-                  }
+                  "$ref": "#/components/schemas/AddingNewColumnResponse"
                 }
               }
             }
@@ -1124,14 +677,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Column title",
-                    "example": "Done"
-                  }
-                },
-                "required": "title"
+                "$ref": "#/components/schemas/ColumnTitleUpdateRequest"
               }
             }
           }
@@ -1245,31 +791,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Task title",
-                    "example": "Figure out what is swagger"
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "Task description",
-                    "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера))"
-                  },
-                  "deadline": {
-                    "type": "string",
-                    "description": "Task deadline",
-                    "example": "2023-07-21T20:57:15.000Z"
-                  },
-                  "priority": {
-                    "type": "string",
-                    "enum": ["high", "low", "medium", "none"],
-                    "default": "none",
-                    "description": "Task priority",
-                    "example": "high"
-                  }
-                },
-                "required": ["title", "description", "deadline"]
+                "$ref": "#/components/schemas/AddNewTaskRequest"
               }
             }
           }
@@ -1281,43 +803,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Task ID (generated by backend)",
-                      "example": "5f86793b8a7c4d2e"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "Task title",
-                      "example": "Figure out what is swagger"
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "Task description",
-                      "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера))"
-                    },
-                    "deadline": {
-                      "type": "string",
-                      "description": "Task deadline",
-                      "example": "2023-07-21T20:57:15.000Z"
-                    },
-                    "priority": {
-                      "type": "string",
-                      "description": "Task priority",
-                      "example": "high"
-                    },
-                    "column": {
-                      "type": "string",
-                      "description": "ColumnId to which task refer ",
-                      "example": "649885bb8cfd32ed13fd42d3"
-                    },
-                    "order": {
-                      "type": "number",
-                      "description": "Task's order (generated by backend)",
-                      "example": 0
-                    }
-                  }
+                  "$ref": "#/components/schemas/AddNewTaskResponse"
                 }
               }
             }
@@ -1366,14 +852,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "newOrder": {
-                    "type": "number",
-                    "description": "Column's new order",
-                    "example": 2
-                  }
-                },
-                "required": "newOrder"
+                "$ref": "#/components/schemas/ChangeColumnOrderRequest"
               }
             }
           }
@@ -1441,40 +920,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "Task title",
-                    "example": "Figure out what is swagger"
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "Title description",
-                    "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера, а также протестирую swagger editor"
-                  },
-                  "deadline": {
-                    "type": "string",
-                    "description": "Task deadline",
-                    "example": "22.07.2023"
-                  },
-                  "priority": {
-                    "type": "string",
-                    "description": "Task priority",
-                    "example": "low"
-                  },
-                  "column": {
-                    "type": "string",
-                    "description": "ColumnId to which task refer",
-                    "example": "649885bb8cfd32ed13fd42d3"
-                  }
-                },
-                "required": [
-                  "title",
-                  "description",
-                  "deadline",
-                  "priority",
-                  "column"
-                ]
+                "$ref": "#/components/schemas/TaskUpdateRequest"
               }
             }
           }
@@ -1537,19 +983,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "column": {
-                    "type": "string",
-                    "description": "ColumnId to which task refer",
-                    "example": "649885bb8cfd32ed13fd42d3"
-                  },
-                  "newOrder": {
-                    "type": "number",
-                    "description": "New task order",
-                    "example": 3
-                  }
-                },
-                "required": ["column"]
+                "$ref": "#/components/schemas/MoveTaskRequest"
               }
             }
           }
@@ -1653,19 +1087,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "description": "User email",
-                    "example": "test@mail.com"
-                  },
-                  "message": {
-                    "type": "string",
-                    "description": "Message to support",
-                    "example": "I'm using TaskPro for a while and it's gonna be great if I could upload my own background."
-                  }
-                },
-                "required": ["email", "message"]
+                "$ref": "#/components/schemas/SupportRequest"
               }
             }
           }
@@ -1693,6 +1115,672 @@
             "description": "Validation error (missing fields in body)"
           }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duka"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email",
+            "example": "duka@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 32,
+            "description": "User's password",
+            "example": "pwd1234567"
+          }
+        },
+        "required": ["email", "password", "name"]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email",
+            "example": "duka@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 32,
+            "description": "User's password",
+            "example": "pwd1234567"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVlOWFjMTJiZjlhYWIyMmJhMGE4MCIsImlhdCI6MTY4ODA1OTkwMSwiZXhwIjoxNjg4MTQ2MzAxfQ.6kT1_mUJQp4f1H_c7GklH1WK4Q_IUv6-7MJ5wjgnLQI"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duka"
+          },
+          "theme": {
+            "type": "string",
+            "enum": ["light", "dark", "violet"],
+            "description": "User's theme",
+            "example": "dark"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar"
+          }
+        }
+      },
+      "RefreshRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "User's refreshToken",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+          }
+        },
+        "required": "refreshToken"
+      },
+      "RefreshResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTQyYjI4MzEyY2YzYWJlYTExNjMzNCIsImlhdCI6MTY4NzQzMjM1MSwiZXhwIjoxNjg3NTE4NzUxfQ.DCEB2Q0lghWYieYxiZohu4uMMpwMYFa55XOqMgggVVg"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVlOWFjMTJiZjlhYWIyMmJhMGE4MCIsImlhdCI6MTY4ODA1OTkwMSwiZXhwIjoxNjg4MTQ2MzAxfQ.6kT1_mUJQp4f1H_c7GklH1WK4Q_IUv6-7MJ5wjgnLQI"
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duka"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email",
+            "example": "duka@mail.com"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar"
+          },
+          "theme": {
+            "type": "string",
+            "enum": ["light", "dark", "violet"],
+            "description": "User's theme",
+            "example": "dark"
+          }
+        }
+      },
+      "UserThemeRequest": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "enum": ["dark", "light", "violet"],
+            "example": "violet"
+          }
+        },
+        "required": "theme"
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar file"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duka"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email",
+            "example": "duka@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 32,
+            "description": "User's password",
+            "example": "pwd1234567"
+          }
+        },
+        "required": ["name", "email", "password"]
+      },
+      "UserUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": ["string", "null"],
+            "nullable": true,
+            "description": "URL or null",
+            "example": "https://res.cloudinary.com/pro-task-cloud/image/upload/v1687533126/avatars/y8y1fx9pg7qmjyik3vgo.png"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Duka"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "duka@mail.com"
+          }
+        }
+      },
+      "AllBoardsWithColumnsAndTasksResponse": {
+        "type": "array",
+        "items": {
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Board Id",
+              "example": "5f86793b8a7c4d2e"
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of the board",
+              "example": "My board"
+            },
+            "icon": {
+              "type": "string",
+              "description": "Icon name for this board",
+              "example": "star"
+            },
+            "background": {
+              "type": ["null", "string"],
+              "nullable": true,
+              "description": "Board background(string/null)",
+              "example": null
+            },
+            "user": {
+              "type": "string",
+              "description": "User's id to whom this board refer (generated by backend)",
+              "example": "5f86793b8a7c4d2e"
+            },
+            "columns": {
+              "type": "array",
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Column Id",
+                    "example": "649885bb8cfd32ed13fd42d3"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Column title",
+                    "example": "To do"
+                  },
+                  "board": {
+                    "type": "string",
+                    "description": "BoardId to which the columns refers",
+                    "example": "649885bb8cfd32ed13fd42d3"
+                  },
+                  "order": {
+                    "type": "number",
+                    "description": "Column order",
+                    "example": 4
+                  },
+                  "tasks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "Task Id",
+                          "example": "649885bb8cfd32ed13fd42d3"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "Task title",
+                          "example": "To buy some food"
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Task description",
+                          "example": "Bread, meat and bla bla bla or dubi dubi dubi"
+                        },
+                        "priority": {
+                          "type": "string",
+                          "enum": ["low", "medium", "high", "none"],
+                          "description": "Task priority",
+                          "example": "high"
+                        },
+                        "deadline": {
+                          "type": "string",
+                          "description": "Task deadline",
+                          "example": "2023-07-21T20:57:15.000Z"
+                        },
+                        "order": {
+                          "type": "number",
+                          "description": "Task order",
+                          "example": 4
+                        },
+                        "column": {
+                          "type": "string",
+                          "description": "ColumnId to which the task refers"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "example1": {
+              "value": [
+                {
+                  "_id": "6499fc7f8f5b7f86f156a98d",
+                  "title": "Team project",
+                  "icon": "computer",
+                  "background": null,
+                  "user": "64942b28312cf3abea116334",
+                  "columns": [
+                    {
+                      "_id": "6499fd028f5b7f86f156a990",
+                      "title": "layout",
+                      "board": "6499fc7f8f5b7f86f156a98d",
+                      "order": 0,
+                      "tasks": [
+                        {
+                          "_id": "649b55ecdd5a42896aae372a",
+                          "title": "sidebar layout",
+                          "description": "blablablabla",
+                          "priority": "none",
+                          "deadline": "2023-07-21T20:57:15.000Z",
+                          "order": 0,
+                          "column": "6499fd028f5b7f86f156a990"
+                        },
+                        {
+                          "_id": "649b55f7dd5a42896aae3731",
+                          "title": "dashboard layout",
+                          "description": "blablablabla",
+                          "priority": "none",
+                          "deadline": "2023-07-21T20:57:15.000Z",
+                          "order": 1,
+                          "column": "6499fd028f5b7f86f156a990"
+                        }
+                      ]
+                    },
+                    {
+                      "_id": "6499fd0d8f5b7f86f156a993",
+                      "title": "back",
+                      "board": "6499fc7f8f5b7f86f156a98d",
+                      "order": 1,
+                      "tasks": [
+                        {
+                          "_id": "649b5603dd5a42896aae3738",
+                          "title": "routes",
+                          "description": "blablablabla",
+                          "priority": "none",
+                          "deadline": "2023-07-21T20:57:15.000Z",
+                          "order": 0,
+                          "column": "6499fd0d8f5b7f86f156a993"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "_id": "649ca3c0efe66a4b29e011fb",
+                  "title": "My favourite project",
+                  "icon": "star",
+                  "background": null,
+                  "user": "64942b28312cf3abea116334",
+                  "columns": []
+                },
+                {
+                  "_id": "649ca3deefe66a4b29e011fe",
+                  "title": "My unrealistic project",
+                  "icon": "star",
+                  "background": null,
+                  "user": "64942b28312cf3abea116334",
+                  "columns": [
+                    {
+                      "_id": "649ca4e4efe66a4b29e01205",
+                      "title": "Believe in good people, love and miracles",
+                      "board": "649ca3deefe66a4b29e011fe",
+                      "order": 0,
+                      "tasks": []
+                    },
+                    {
+                      "_id": "649ca4fcefe66a4b29e01208",
+                      "title": "Live forever",
+                      "board": "649ca3deefe66a4b29e011fe",
+                      "order": 1,
+                      "tasks": []
+                    },
+                    {
+                      "_id": "649ca526efe66a4b29e0120b",
+                      "title": "Back to Ukraine",
+                      "board": "649ca3deefe66a4b29e011fe",
+                      "order": 2,
+                      "tasks": [
+                        {
+                          "_id": "649ca578efe66a4b29e0120f",
+                          "title": "wash away all occupants",
+                          "description": "tra ta ta ta",
+                          "priority": "high",
+                          "deadline": "2023-07-21T20:57:15.000Z",
+                          "order": 0,
+                          "column": "649ca526efe66a4b29e0120b"
+                        },
+                        {
+                          "_id": "649ca59defe66a4b29e01216",
+                          "title": "live peaceful life",
+                          "description": "ahhhhhhh",
+                          "priority": "high",
+                          "deadline": "2023-07-21T20:57:15.000Z",
+                          "order": 1,
+                          "column": "649ca526efe66a4b29e0120b"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "AddingNewBoardRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Board title",
+            "example": "My project"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Board icon name",
+            "example": "star"
+          },
+          "background": {
+            "type": ["string", "null"],
+            "description": "Board background(string/null)",
+            "example": null
+          }
+        },
+        "required": ["title", "icon"]
+      },
+      "AddingNewBoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board ID (generated by backend)",
+            "example": "5f86793b8a7c4d2e"
+          }
+        }
+      },
+      "UpdateBoardRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Board title",
+            "example": "My project"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Board icon name",
+            "example": "star"
+          },
+          "background": {
+            "type": ["string", "null"],
+            "description": "Board background(url/null)",
+            "example": null
+          }
+        },
+        "required": ["title", "icon", "background"]
+      },
+      "UpdateBackgroundRequest": {
+        "type": "object",
+        "properties": {
+          "background": {
+            "type": ["string", "null"],
+            "description": "Board background(string/null)",
+            "example": null
+          }
+        },
+        "required": "background"
+      },
+      "AddingNewColumnRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Column title",
+            "example": "To do"
+          },
+          "board": {
+            "type": "string",
+            "description": "BoardId to which the column refer",
+            "example": "649885bb8cfd32ed13fd42d3"
+          }
+        },
+        "required": ["title", "board"]
+      },
+      "AddingNewColumnResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Column ID (generated by backend)",
+            "example": "5f86793b8a7c4d2e"
+          },
+          "title": {
+            "type": "string",
+            "description": "Column title",
+            "example": "To do"
+          },
+          "board": {
+            "type": "string",
+            "description": "BoardId to which the column refer",
+            "example": "649885bb8cfd32ed13fd42d3"
+          },
+          "order": {
+            "type": "number",
+            "description": "Column's order (generated by backend)",
+            "example": 3
+          }
+        }
+      },
+      "ColumnTitleUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Column title",
+            "example": "Done"
+          }
+        },
+        "required": "title"
+      },
+      "AddNewTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Figure out what is swagger"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера))"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task deadline",
+            "example": "2023-07-21T20:57:15.000Z"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["high", "low", "medium", "none"],
+            "default": "none",
+            "description": "Task priority",
+            "example": "high"
+          }
+        },
+        "required": ["title", "description", "deadline"]
+      },
+      "AddNewTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task ID (generated by backend)",
+            "example": "5f86793b8a7c4d2e"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Figure out what is swagger"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task description",
+            "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера))"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task deadline",
+            "example": "2023-07-21T20:57:15.000Z"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority",
+            "example": "high"
+          },
+          "column": {
+            "type": "string",
+            "description": "ColumnId to which task refer ",
+            "example": "649885bb8cfd32ed13fd42d3"
+          },
+          "order": {
+            "type": "number",
+            "description": "Task's order (generated by backend)",
+            "example": 0
+          }
+        }
+      },
+      "ChangeColumnOrderRequest": {
+        "type": "object",
+        "properties": {
+          "newOrder": {
+            "type": "number",
+            "description": "Column's new order",
+            "example": 2
+          }
+        },
+        "required": "newOrder"
+      },
+      "TaskUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Figure out what is swagger"
+          },
+          "description": {
+            "type": "string",
+            "description": "Title description",
+            "example": "Я - умничка, сладкая булочка и прочитаю доки до сваггера, а также протестирую swagger editor"
+          },
+          "deadline": {
+            "type": "string",
+            "description": "Task deadline",
+            "example": "22.07.2023"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority",
+            "example": "low"
+          },
+          "column": {
+            "type": "string",
+            "description": "ColumnId to which task refer",
+            "example": "649885bb8cfd32ed13fd42d3"
+          }
+        },
+        "required": ["title", "description", "deadline", "priority", "column"]
+      },
+      "MoveTaskRequest": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string",
+            "description": "ColumnId to which task refer",
+            "example": "649885bb8cfd32ed13fd42d3"
+          },
+          "newOrder": {
+            "type": "number",
+            "description": "New task order",
+            "example": 3
+          }
+        },
+        "required": ["column"]
+      },
+      "SupportRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "test@mail.com"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message to support",
+            "example": "I'm using TaskPro for a while and it's gonna be great if I could upload my own background."
+          }
+        },
+        "required": ["email", "message"]
       }
     }
   }
