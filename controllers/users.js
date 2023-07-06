@@ -113,6 +113,7 @@ const updateTheme = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id } = req.user;
   const { password, email } = req.body;
+  const user = await User.findById(id);
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     if (id !== existingUser.id) {
@@ -128,7 +129,7 @@ const updateUser = async (req, res) => {
     id,
     {
       ...req.body,
-      password: hashedPassword || existingUser.password,
+      password: hashedPassword || user.password,
     },
     { new: true }
   );
