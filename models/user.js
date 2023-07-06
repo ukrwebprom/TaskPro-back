@@ -59,7 +59,7 @@ const themeSchema = Joi.object({
 
 const updateUserSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().min(8).max(64).required(),
+  password: Joi.string(),
   name: Joi.string().required(),
   avatar: Joi.string(),
 });

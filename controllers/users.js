@@ -119,12 +119,16 @@ const updateUser = async (req, res) => {
       throw HttpError(409, "Email in use");
     }
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
+  let hashedPassword;
+  if (password) {
+    hashedPassword = await bcrypt.hash(password, 10);
+  }
+
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
       ...req.body,
-      password: hashedPassword,
+      password: hashedPassword || existingUser.password,
     },
     { new: true }
   );
